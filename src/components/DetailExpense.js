@@ -1,5 +1,6 @@
 import { H2, Table, Th } from "../Styles";
 import Spending from "./Spending";
+import PropTypes from 'prop-types';
 
 const DetailExpense = ({ expenses }) => (
   <>
@@ -7,8 +8,8 @@ const DetailExpense = ({ expenses }) => (
     <Table>
       <thead>
         <tr>
-          <Th width="400px">Nombre del Gasto</Th>
-          <Th width="115px">Monto</Th>
+          <Th width="300px">Nombre del Gasto</Th>
+          <Th width="95px">Monto</Th>
         </tr>
       </thead>
       <tbody>
@@ -19,5 +20,10 @@ const DetailExpense = ({ expenses }) => (
     </Table>
   </>
 );
+
+
+DetailExpense.propTypes = {
+  expenses: PropTypes.array.isRequired
+}
 
 export default DetailExpense;

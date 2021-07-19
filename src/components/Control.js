@@ -1,16 +1,8 @@
-import React, {  useEffect } from "react";
 import { P, Span } from "../Styles";
+import PropTypes from 'prop-types';
 
-const Control = ({
-  availableMoney,
-  remainingMoney,
-  createSpending,
-  expenses,
-  setExpenses,
-  spending,
-  setRemainingMoney,
-  setCreateSpending,
-}) => {
+const Control = ({ availableMoney, remainingMoney }) => {
+  
   let backgroundConditional;
   if (availableMoney / 4 > remainingMoney) {
     backgroundConditional = "#FF000070";
@@ -20,17 +12,7 @@ const Control = ({
     backgroundConditional = "#66990080";
   }
 
-  useEffect(() => {
-    createSpending && setExpenses([...expenses, spending]);
-
-    const remaining = remainingMoney - spending.spentMoney;
-
-    setRemainingMoney(remaining);
-    setCreateSpending(false);
-  }, [spending]);
-
-
-  return (
+ return (
     <>
       <P background="#3e3e4b20">
         Monto Inicial: <Span color="green">&nbsp; {availableMoney} $</Span>
@@ -42,5 +24,10 @@ const Control = ({
     </>
   );
 };
+
+Control.propTypes = {
+  availableMoney: PropTypes.number.isRequired,
+  remainingMoney: PropTypes.number.isRequired
+}
 
 export default Control;

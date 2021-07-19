@@ -1,23 +1,26 @@
 import React, {useState} from 'react';
 import { H2, Input, InputBtn } from "../Styles";
 import Swal from "sweetalert2";
-
+import PropTypes from 'prop-types';
 
 const QuestionAvailableMoney = ({
   availableMoney,
-  remainingMoney,
   setRemainingMoney,
   setAvailableMoney,
   setShowQuestion,
 }) => {
+  
+  const [amount, setAmount] = useState(0);
+  const [btnActive, setBtnActive] = useState(true)
+
   const defineAvailable = (e) => {
-    setAvailableMoney(parseFloat(e.target.value));
+    setAmount(parseFloat(e.target.value));
     e.target.value && setBtnActive(false)
   };
 
   const addAvailable = (e) => {
     e.preventDefault();
-    if (availableMoney <= 0 || isNaN(availableMoney)) {
+    if (amount <= 0 || isNaN(amount)) {
       Swal.fire({
         icon: "error",
         title: "Valor Incorrecto !!",
@@ -27,15 +30,13 @@ const QuestionAvailableMoney = ({
     }
 
     setShowQuestion(false);
-    setRemainingMoney(remainingMoney);
-    setAvailableMoney(availableMoney);
+    setRemainingMoney(amount);
+    setAvailableMoney(amount);
   };
-
-  const [btnActive, setBtnActive] = useState(true)
 
   return (
     <>
-      <H2>Ingrese Monto Disponible</H2>
+      <H2>Ingrese Disponible</H2>
       <form onSubmit={addAvailable}>
         <Input
           width="60%"
@@ -56,5 +57,12 @@ const QuestionAvailableMoney = ({
     </>
   );
 };
+
+
+QuestionAvailableMoney.propTypes = {
+  setRemainingMoney: PropTypes.func.isRequired,
+  setAvailableMoney: PropTypes.func.isRequired,
+  setShowQuestion: PropTypes.func.isRequired
+}
 
 export default QuestionAvailableMoney;

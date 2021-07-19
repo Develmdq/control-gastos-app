@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { H1, Body, Body2, Inputs, Outputs} from "./Styles";
+import React, { useState,  useEffect } from 'react';
+import { H1, Body, Main, Main2, Inputs, Outputs} from "./Styles";
 import QuestionAvailableMoney from "./components/QuestionAvailableMoney";
 import AddExpenses from "./components/AddExpenses";
 import DetailExpense from "./components/DetailExpense";
@@ -12,19 +12,28 @@ function App() {
   const [showQuestion, setShowQuestion] = useState(true);
   const [expenses, setExpenses] = useState([]);
   const [spending, setSpending] = useState({});
-  const [createSpending, setCreateSpending] = useState(false)
+  const [createSpending, setCreateSpending] = useState(false);
+
+  // Actualizar restante
+  useEffect(() => {
+
+    if (createSpending) {
+
+    setExpenses([...expenses, spending]);
+    const remaining = remainingMoney - spending.spentMoney;
+
+    setRemainingMoney(remaining);
+    setCreateSpending(false);
+    }
+
+    
+  }, [spending, createSpending, expenses, remainingMoney]);
   
-
-  console.log(availableMoney)
-  console.log(remainingMoney)
    return (
-     <>
-       <header>
+     <Body className='body'>
          <H1>Control de Gastos</H1>
-       </header>
-
        {showQuestion ? (
-         <Body>
+         <Main className='main1'>
            <QuestionAvailableMoney
              availableMoney={availableMoney}
              remainingMoney={remainingMoney}
@@ -32,32 +41,25 @@ function App() {
              setRemainingMoney={setRemainingMoney}
              setShowQuestion={setShowQuestion}
            />
-         </Body>
+         </Main>
        ) : (
-         <Body2>
-           <Inputs>
+         <Main2 className='main2'>
+           <Inputs className='ingreso'>
              <AddExpenses
                setSpending={setSpending}
                setCreateSpending={setCreateSpending}
              />
              <Control
                availableMoney={availableMoney}
-               remainingMoney={remainingMoney}
-               createSpending={createSpending}
-               expenses={expenses}
-               spending={spending}
-               setSpending={setSpending}
-               setExpenses={setExpenses}
-               setRemainingMoney={setRemainingMoney}
-               setCreateSpending={setCreateSpending}
+               remainingMoney={remainingMoney}               
              />
            </Inputs>
-           <Outputs>
+           <Outputs className='egreso'>
              <DetailExpense expenses={expenses} />
            </Outputs>
-         </Body2>
+         </Main2>
        )}
-     </>
+     </Body>
    );
 }
 
